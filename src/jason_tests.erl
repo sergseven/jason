@@ -70,7 +70,7 @@ jason_decode_types_test() ->
 ,?assertEqual(#{abc => "def"}, jason:decode('{"abc": "def"}', [{mode, map}]))
 %  mode=record
 % {"abc": "def"}       -> {'111259705',"def"}
-,?assertEqual({'111259705',"def"}, jason:decode('{"abc": "def"}', [{mode, record}]))
+,?assertEqual({'61296131',<<"def">>}, jason:decode('{"abc": "def"}', [{mode, record}]))
 
 
 %% Record -
@@ -86,7 +86,7 @@ jason_decode_types_test() ->
 ,?assertEqual(#{k1 => 1,k2 => "ab"}, jason:decode('{"k1": 1,"k2": "ab"}', [{mode, map}]))
 %  mode=record
 % {"k1": 1,"k2": "ab"} -> {'8056669',1,"ab"}
-,?assertEqual({'8056669',1,"ab"}, jason:decode('{"k1": 1,"k2": "ab"}', [{mode, record}]))
+,?assertEqual({'133777886',1,<<"ab">>}, jason:decode('{"k1": 1,"k2": "ab"}', [{mode, record}]))
 
 %%% Special cases
 % Atom > 255 characters kept binary
@@ -264,12 +264,12 @@ jason_decode_objects_test() ->
      % object: map / binary kv
      ?assertMatch({ok,#{<<"1">> := 2,<<"key">> := <<"value">>}} , jason:decode(Input18, [{return, tuple}, {binary, kv}, {mode, map}])),
      %% RECORD
-     % object: record / binary k (does not change)
-     ?assertMatch({ok,{'132007953',2,"value"}} , jason:decode(Input18, [{return, tuple}, {binary, k}, {mode, record}])),
+     % object: record / binary option has no effect
+     ?assertMatch({ok,{'83030046',2,<<"value">>}} , jason:decode(Input18, [{return, tuple}, {binary, k}, {mode, record}])),
      % object: record / binary v
      ?assertMatch( {ok,{'83030046',2,<<"value">>}} , jason:decode(Input18, [{return, tuple}, {binary, v}, {mode, record}])),
      % object: record / binary kv
-     ?assertMatch({ok,{'83030046',2,<<"value">>}} , jason:decode(Input18, [{return, tuple}, {binary, kv}, {mode, record}])),
+     ?assertMatch({ok,{'83030046',2,<<"value">>}} , jason:decode(Input18, [{return, tuple}, {mode, record}])),
      % object: record / null_as_undefined
      Input19 = <<"{\"1\":2,\"key\":null}">>,
      % null_as_undefined false

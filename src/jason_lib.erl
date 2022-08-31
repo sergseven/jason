@@ -53,7 +53,7 @@ mapify(X) -> cast(X).
 recordify(Obj)
    when is_list(Obj)
    -> % Replace binary keys by atom key, and detect values types
-      R = lists:flatmap(fun({K, V}) -> [{erlang:binary_to_atom(K, utf8), cast(V)}] end, Obj),
+      R = lists:flatmap(fun({K, V}) -> [{erlang:binary_to_atom(K, utf8), V}] end, Obj),
       T = lists:flatmap(fun({K, V}) -> [{K, detect_type(V)}] end, R),
       CR = case get(jason_records) of
                [] -> '' ;
