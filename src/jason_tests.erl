@@ -273,9 +273,9 @@ jason_decode_objects_test() ->
      % object: record / null_as_undefined
      Input19 = <<"{\"1\":2,\"key\":null}">>,
      % null_as_undefined false
-     ?assertMatch({ok,{'49797875',2,null}} , jason:decode(Input19, [{return, tuple}, {binary, kv}, {mode, record}, {null_as_undefined, false}])),
+     ?assertMatch({ok,{'49797875',2,null}} , jason:decode(Input19, [{return, tuple}, {mode, record}, {null_as_undefined, false}])),
      % null_as_undefined true     
-     ?assertMatch({ok,{'49797875',2,undefined}} , jason:decode(Input19, [{return, tuple}, {binary, kv}, {mode, record}, {null_as_undefined, true}])),
+     ?assertMatch({ok,{'49797875',2,undefined}} , jason:decode(Input19, [{return, tuple}, {mode, record}, {null_as_undefined, true}])),
      ok.
 
 
