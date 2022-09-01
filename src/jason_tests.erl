@@ -308,4 +308,35 @@ jason_encode_arrays_test() ->
 
   ok.
 
+jason_encode_maps_test() ->
+
+  ?assertEqual("{}", jason:encode(#{})),
+  ?assertEqual("{\"abc\": \"def\"}", jason:encode(#{"abc" => <<"def">>})),
+  ?assertEqual("{\"abc\": \"def\",\"abc2\": \"def2\"}", jason:encode(#{"abc" => <<"def">>, "abc2" => "def2"})),
+
+  ok.
+
+jason_encode_objects_test() ->
+
+  ?assertEqual("{\"k1\": 1,\"k2\": \"ab\"}", jason:encode({r,1,<<"ab">>}, [{records, [{r, [k1,k2]}]}])),
+
+  ok.
+
+
+jason_encode_dict_test() ->
+
+  ?assertEqual("{}", jason:encode(dict:from_list([]))),
+  ?assertEqual("{\"abc\": \"def\"}", jason:encode(dict:from_list([{<<"abc">>, <<"def">>}]))),
+  ?assertEqual("{\"abc\": \"def\",\"abc2\": \"def2\"}", jason:encode(dict:from_list([{<<"abc">>, <<"def">>}, {<<"abc2">>, <<"def2">>}]))),
+
+  ?assertEqual(
+    "{\"abc\": {\"k1\": 1,\"k2\": \"ab\"},\"abc2\": {\"k1\": 2,\"k2\": \"cd\"}}",
+    jason:encode(
+      dict:from_list([
+        {<<"abc">>, {r, 1, <<"ab">>}},
+        {<<"abc2">>, {r, 2, <<"cd">>}}]),
+      [{records, [{r, [k1, k2]}]}])),
+
+  ok.
+
 

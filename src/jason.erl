@@ -140,8 +140,13 @@ encode(Term, O) ->
                        end
    end.
 % MAP
+encode(Term, _Opt, _Side, _Depth)
+  when is_map(Term) andalso map_size(Term) == 0 -> "{}";
 encode(Term, Opt, Side, Depth)
       when is_map(Term) ->  encode(maps:to_list(Term), Opt#opt{mode = map}, Side, Depth) ;
+% dict
+encode(Dict, Opt, Side, Depth)
+  when is_tuple(Dict) andalso element(1, Dict) =:= dict ->  encode(maps:from_list(dict:to_list(Dict)), Opt, Side, Depth) ;
 % TUPLE left
 encode({L, R}, Opt, left, Depth)
            when is_atom(L),
