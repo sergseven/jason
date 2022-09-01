@@ -278,4 +278,34 @@ jason_decode_objects_test() ->
      ?assertMatch({ok,{'49797875',2,undefined}} , jason:decode(Input19, [{return, tuple}, {mode, record}, {null_as_undefined, true}])),
      ok.
 
+jason_encode_literals_test() ->
+
+  ?assertEqual("null", jason:encode(null)),
+  ?assertEqual("null", jason:encode(undefined)),
+  ?assertEqual("true", jason:encode(true)),
+  ?assertEqual("false", jason:encode(false)),
+  ?assertEqual("\"any\"", jason:encode(any)),
+  
+  ok.
+
+jason_encode_numbers_test() ->
+
+  ?assertEqual("123", jason:encode(123)),
+  
+  %% TODO: fix bug {value,"123.456789000000001"}   
+  %%  ?assertEqual("123.456789", jason:encode(123.456789)),
+  ?assertEqual("2.3", jason:encode(2.30e+0)),
+  ?assertEqual("2300.0", jason:encode(2.30e+3)),
+  ?assertEqual("0.0023", jason:encode(2.30e-3)),
+
+  ok.
+
+
+jason_encode_arrays_test() ->
+
+  ?assertEqual("[1,2,3]", jason:encode([1,2,3])),
+  ?assertEqual("[\"a\",\"b\",\"c\"]", jason:encode([a,"b",<<"c">>])),
+
+  ok.
+
 
